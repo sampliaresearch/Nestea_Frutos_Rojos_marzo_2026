@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nestea Frutos Rojos — Resultados de encuesta — Samplia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --brand: #C0392B;
+      --brand-dark: #922B21;
+      --brand-light: #FADBD8;
+      --brand-mid: #E74C3C;
+      --b1: #922B21;
+      --b2: #C0392B;
+      --b3: #E74C3C;
+      --b4: #EC7063;
+      --b5: #F1948A;
+      --b6: #F5B7B1;
+      --b7: #FADBD8;
+      --black: #1A1A1A;
+      --gray: #6B6B6B;
+      --gray-light: #F5F5F5;
+      --border: #EBEBEB;
+      --white: #FFFFFF;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--gray-light);
+      min-height: 100vh;
+      padding: 0 0 2rem;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .samplia-logo {
+      width: 96px;
+      height: auto;
+      display: block;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .live-pill {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--brand-light);
+      color: var(--brand-dark);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--brand);
+      animation: blink 1.4s infinite;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: 0.2
+      }
+    }
+
+    .last-update {
+      font-size: 11px;
+      color: var(--gray);
+    }
+
+    /* ── TITLE BAR ── */
+    .title-bar {
+      background: linear-gradient(120deg, #922B21, #C0392B, #E74C3C, #922B21);
+      background-size: 300% 300%;
+      animation: gradient-slide 10s ease infinite;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    @keyframes gradient-slide {
+      0% {
+        background-position: 0% 50%
+      }
+
+      50% {
+        background-position: 100% 50%
+      }
+
+      100% {
+        background-position: 0% 50%
+      }
+    }
+
+    .title-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .brand-title {
+      color: #fff;
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+
+    .title-center-info {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-left: 1rem;
+    }
+
+    .location-box {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      padding: 10px 16px;
+    }
+
+    .location-line {
+      font-size: 12.5px;
+      color: rgba(255, 255, 255, 0.95);
+      line-height: 1.4;
+    }
+
+    .title-right {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.25rem;
+    }
+
+    .title-main {
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .title-sub {
+      color: rgba(255, 255, 255, 0.95);
+      font-size: 13px;
+    }
+
+    /* ── CONTENT ── */
+    .content {
+      padding: 1.25rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ── FILTROS ── */
+    .filter-bar {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.75rem 1.25rem;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .filter-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .filter-select {
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--black);
+      background: var(--gray-light);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 6px 30px 6px 10px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B6B6B' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      cursor: pointer;
+      min-width: 150px;
+    }
+
+    .filter-select:focus {
+      outline: none;
+      border-color: var(--brand);
+    }
+
+    .filter-sep {
+      width: 1px;
+      height: 24px;
+      background: var(--border);
+    }
+
+    /* ── KPIs ── */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .kpi {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kpi::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--brand);
+    }
+
+    .kpi-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .kpi-value {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--black);
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+
+    .kpi-sub {
+      font-size: 11px;
+      color: var(--gray);
+      margin-top: 4px;
+    }
+
+    .kpi-benchmark {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 2px;
+    }
+
+    .bench-box {
+      background: #FDF2F2;
+      border: 1px solid #FADBD8;
+      border-radius: 6px;
+      padding: 4px 8px;
+      text-align: right;
+      min-width: 100px;
+    }
+
+    .bench-text {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--gray);
+      line-height: 1.2;
+    }
+
+    .bench-val {
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    /* ── SECCIONES ── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--brand);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 1rem 0 8px;
+    }
+
+    /* ── GRIDS ── */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .grid-5 {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      position: relative;
+    }
+
+    .card-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-title::before {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 12px;
+      background: var(--brand);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ── CHARTS ── */
+    .chart-wrap {
+      position: relative;
+      width: 100%;
+    }
+
+    .chart-note {
+      margin-top: 0.75rem;
+      font-size: 11px;
+      color: #5c5c5c;
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .h130 {
+      height: 132px;
+    }
+
+    .h150 {
+      height: 162px;
+    }
+
+    .h180 {
+      height: 182px;
+    }
+
+    .h200 {
+      height: 202px;
+    }
+
+    .h206 {
+      height: 206px;
+    }
+
+    .h255 {
+      height: 257px;
+    }
+
+    .h400 {
+      height: 402px;
+    }
+
+    /* ── MINI STATS ── */
+    .mini-stat {
+      background: var(--gray-light);
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      text-align: center;
+    }
+
+    .mini-stat-label {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 3px;
+    }
+
+    .mini-stat-value {
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--black);
+      line-height: 1;
+    }
+
+    .mini-stat-value.red {
+      color: #DD0025;
+    }
+
+    .mini-stat-value.light-green {
+      color: #9CCC65;
+    }
+
+    .mini-stat-value.dark-green {
+      color: #2E7D32;
+    }
+
+    .mini-stat-value.orange {
+      color: #FFA726;
+    }
+
+    .mini-stat-value.muted {
+      color: #888888;
+    }
+
+    .mini-stat-value.brand {
+      color: var(--brand);
+    }
+
+    /* ── DONUT ── */
+    /* ── WAFFLE ── */
+    .waffle-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 160px;
+      gap: 12px;
+    }
+
+    .waffle-grid {
+      display: grid;
+      grid-template-columns: repeat(20, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+      gap: 2px;
+      width: 100%;
+      max-width: 400px;
+      height: 100px;
+    }
+
+    .waffle-item {
+      width: 100%;
+      height: 100%;
+      border-radius: 1.5px;
+      background: var(--gray-light);
+      transition: transform 0.2s ease;
+    }
+
+    .waffle-item:hover {
+      transform: scale(1.2);
+      z-index: 2;
+    }
+
+    .waffle-legend {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── NPS BAR ── */
+    .nps-bar {
+      display: flex;
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 10px 0 4px;
+      width: 100%;
+    }
+
+    .nps-bar-det {
+      background: #DD0025;
+    }
+
+    .nps-bar-pas {
+      background: #9CCC65;
+    }
+
+    .nps-bar-pro {
+      background: #2E7D32;
+    }
+
+    /* ── INSIGHTS ── */
+    .insights-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .insight-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .insight-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+
+    .insight-card.ins-1::before {
+      background: #00812B;
+    }
+
+    .insight-card.ins-2::before {
+      background: #27AE60;
+    }
+
+    .insight-card.ins-3::before {
+      background: #52BE80;
+    }
+
+    .insight-card.ins-4::before {
+      background: #82E0AA;
+    }
+
+    .insight-icon {
+      font-size: 20px;
+      margin-bottom: 6px;
+    }
+
+    .insight-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 5px;
+    }
+
+    .insight-body {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--black);
+      line-height: 1.45;
+    }
+
+    .insight-body strong {
+      font-weight: 800;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--gray);
+      margin-top: 1rem;
+      flex-wrap: wrap;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+    }
+
+    .footer .download-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-width: 130px;
+      background: var(--brand);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 7px 1.25rem;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .footer .download-btn:hover {
+      background: var(--brand-dark);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 700px) {
+      .kpi-row {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .grid-4,
+      .grid-5 {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .insights-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .header {
+        padding: 0 1rem;
+      }
+
+      .content {
+        padding: 1rem;
+      }
+
+      .last-update {
+        display: none;
+      }
+
+      .title-center-info {
+        margin-left: 0;
+        margin-top: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <img class="samplia-logo" src="https://samplia.com/assets/img/Samplia.svg" alt="Samplia logo" />
+    </div>
+    <div class="header-right">
+      <div class="live-pill">
+        <div class="live-dot"></div>En vivo
+      </div>
+      <span class="last-update" id="lastUpdate">Cargando...</span>
+    </div>
+  </div>
+
+  <div class="title-bar">
+    <div class="title-left">
+      <div class="brand-title">Nestea Frutos Rojos</div>
+      <div class="title-main" style="margin-top: 2px; text-align: left;">Resultados de encuesta a consumidores</div>
+    </div>
+    <div class="title-center-info">
+      <div class="location-box">
+        <div class="location-line" style="display:flex;align-items:flex-start;gap:6px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            style="flex-shrink:0;margin-top:2px;">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+          <div><strong>Samplia Circuito de Máquinas:</strong> del 12 al 18 de marzo.</div>
+        </div>
+        <div class="location-line" style="display:flex;align-items:flex-start;gap:6px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            style="flex-shrink:0;margin-top:2px;">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+          <div><strong>Samplia X Plaza Callao, Madrid:</strong> del 18 al 31 de marzo.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="filter-bar">
+      <span class="filter-label">Género</span>
+      <select class="filter-select" id="fGender">
+        <option value="">Todos</option>
+        <option value="F">Femenino</option>
+        <option value="M">Masculino</option>
+      </select>
+      <div class="filter-sep"></div>
+      <span class="filter-label">Edad</span>
+      <select class="filter-select" id="fAge">
+        <option value="">Todos</option>
+        <option value="18-24">18–24</option>
+        <option value="25-34">25–34</option>
+        <option value="35-44">35–44</option>
+        <option value="45-54">45–54</option>
+        <option value="55-64">55–64</option>
+        <option value="65+">65+</option>
+      </select>
+    </div>
+
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi-label">Encuestados</div>
+        <div class="kpi-value" id="kpiTotal">—</div>
+        <div class="kpi-sub">Total campañas</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Conocimiento previo de Nestea Frutos Rojos</div>
+        <div class="kpi-value" id="kpiKnew">—</div>
+        <div class="kpi-sub">% conocían la marca</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Comprarían</div>
+        <div class="kpi-value" id="kpiCompra">—</div>
+        <div class="kpi-sub">Intención de compra</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Valoración media</div>
+        <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:10px;">
+          <div>
+            <div class="kpi-value" id="kpiScore">—</div>
+            <div class="kpi-sub" style="margin-top:4px; font-size: 9px; white-space: nowrap;">media (escala 1–10)</div>
+          </div>
+          <div id="kpiBenchmarkContainer"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">Perfil del encuestado</div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Género</div>
+        <div class="waffle-wrap">
+          <div id="cGenero" class="waffle-grid"></div>
+          <div class="waffle-legend" id="genderLegend"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Rango de edad</div>
+        <div class="chart-wrap h150"><canvas id="cEdad"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Conocimiento previo de Nestea Frutos Rojos</div>
+        <div class="chart-wrap h200"><canvas id="cConocia"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Frecuencia de consumo de tés fríos</div>
+        <div class="chart-wrap h206"><canvas id="cFrecuencia"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Marca de consumo habitual</div>
+        <div class="chart-wrap h400"><canvas id="cMarcaCustom"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Otras menciones</div>
+        <div class="chart-wrap h400"><canvas id="cCompetidor"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Momentos de consumo de Nestea Frutos Rojos</div>
+        <div class="chart-wrap h255"><canvas id="cMomento"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Comparación con otros tés fríos</div>
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <div class="chart-wrap h255" style="flex:1;"><canvas id="cComparacion"></canvas></div>
+          <div class="mini-stat" style="min-width:85px; margin-top:20px;">
+            <div class="mini-stat-label">Top 2 Box</div>
+            <div class="mini-stat-value green" id="mTop2Comparacion">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Nivel de sabor a frutos rojos</div>
+        <div class="chart-wrap h255"><canvas id="cIntensidad"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Nivel de dulzor</div>
+        <div class="chart-wrap h255"><canvas id="cDulzor"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Satisfacción general con el sabor</div>
+        <div class="grid-5" style="margin-bottom:10px;">
+          <div class="mini-stat">
+            <div class="mini-stat-label">Insatisfechos</div>
+            <div class="mini-stat-value red" id="mScoreInsat">—</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-stat-label">Neutrales</div>
+            <div class="mini-stat-value orange" id="mScoreNeu">—</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-stat-label">Satisfechos</div>
+            <div class="mini-stat-value light-green" id="mScoreSat">—</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-stat-label" style="font-size: 6px;">Muy Satisfechos</div>
+            <div class="mini-stat-value dark-green" id="mScoreMuySat">—</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-stat-label">Media</div>
+            <div class="mini-stat-value" id="mScoreMedia">—</div>
+          </div>
+        </div>
+        <div class="chart-wrap h130"><canvas id="cScore"></canvas></div>
+        <div class="chart-note">Insatisfechos 1-4 | Neutrales 5–6 | Satisfechos >= 7 | Muy Satisfechos 9–10</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Lo que más valoras</div>
+        <div class="chart-wrap h255"><canvas id="cMasGusta"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Intención de compra</div>
+        <div class="chart-wrap h400"><canvas id="cCompra"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Frenos de compra</div>
+        <div class="chart-wrap h400"><canvas id="cNoCompra"></canvas></div>
+      </div>
+    </div>
+
+    <div class="section-label">Intención de recomendación</div>
+    <div class="card">
+      <div class="card-title">Net Promoter Score & Distribución NPS</div>
+      <div style="display:flex; justify-content:center; margin-bottom: 25px; margin-top: 10px;">
+        <div class="mini-stat" style="min-width:240px; max-width:320px; width:100%;">
+          <div class="mini-stat-label">Net Promoter Score</div>
+          <div class="mini-stat-value" id="npsValue" style="font-size: 32px;">—</div>
+          <div class="nps-bar" style="height: 8px; margin-top: 10px;">
+            <div class="nps-bar-det" id="npsBarDet" style="width:0%"></div>
+            <div class="nps-bar-pas" id="npsBarPas" style="width:0%"></div>
+            <div class="nps-bar-pro" id="npsBarPro" style="width:0%"></div>
+          </div>
+          <div
+            style="display:flex; justify-content:space-between; margin-top:8px; font-size:11px; font-weight:600; gap:4px; flex-wrap:wrap;">
+            <span id="npsLegDet" style="color:#DD0025;">Detractores —%</span>
+            <span id="npsLegPas" style="color:#9CCC65;">Pasivos —%</span>
+            <span id="npsLegPro" style="color:#2E7D32;">Promotores —%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-wrap h200" style="max-width: 800px; margin: 0 auto;">
+        <canvas id="cNpsScale"></canvas>
+      </div>
+
+      <div
+        style="display:flex; gap:20px; justify-content:center; margin-top:20px; font-size:11px; font-weight:600; color:var(--gray); flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:6px;color:#DD0025;">
+          <span style="width:10px;height:10px;border-radius:50%;background:#DD0025;display:inline-block;"></span>
+          Detractores (0-6)
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;color:#9CCC65;">
+          <span style="width:10px;height:10px;border-radius:50%;background:#9CCC65;display:inline-block;"></span>
+          Pasivos (7-8)
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;color:#2E7D32;">
+          <span style="width:10px;height:10px;border-radius:50%;background:#2E7D32;display:inline-block;"></span>
+          Promotores (9-10)
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">Insights destacados</div>
+    <div class="insights-grid">
+      <div class="insight-card ins-1">
+        <div class="insight-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+            stroke="#00812B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
+            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
+          </svg>
+        </div>
+        <div class="insight-title">Intención de compra</div>
+        <div class="insight-body" id="insightCompra">—</div>
+      </div>
+      <div class="insight-card ins-2">
+        <div class="insight-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+            stroke="#00812B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon
+              points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+          </svg>
+        </div>
+        <div class="insight-title">Valoración del producto</div>
+        <div class="insight-body" id="insightScore">—</div>
+      </div>
+      <div class="insight-card ins-3">
+        <div class="insight-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+            stroke="#00812B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m3 11 18-5v12L3 14v-3z" />
+            <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
+          </svg>
+        </div>
+        <div class="insight-title">Conocimiento de marca</div>
+        <div class="insight-body" id="insightBrand">—</div>
+      </div>
+      <div class="insight-card ins-4">
+        <div class="insight-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+            stroke="#00812B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path
+              d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3">
+            </path>
+          </svg>
+        </div>
+        <div class="insight-title">Recomendación (NPS)</div>
+        <div class="insight-body" id="insightNps">—</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span id="footerInfo">Actualizando cada 24 horas</span>
+      <button class="download-btn" id="downloadPdfBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
+        Descargar PDF
+      </button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script>
+    // Configuración global de fuentes en Chart.js (Cumplimiento de estilo "Poppins")
+    Chart.defaults.font.family = "'Poppins', sans-serif";
+
+    const GSHEET_URL = 'https://docs.google.com/spreadsheets/d/17p2A1teUbtoIj9_XlobCLCbNJ7i8zLU26A7OMvvCKN0/gviz/tq?tqx=out:json&gid=529542583';
+
+    // Índices de columna
+    const CI = {
+      gender: 1, age: 3, conocia: 5, masGusto: 6, compra: 7, score: 8, noCompra: 9,
+      momento: 10, intensidad: 11, dulzor: 12, frecuencia: 13, comparacion: 14,
+      nps: 15, competidor: 16, marcaCustom: 17,
+    };
+
+    const RED_PAL = ['#922B21', '#C0392B', '#E74C3C', '#EC7063', '#F1948A', '#F5B7B1', '#FADBD8'];
+    const GREEN_PAL = ['#004D1A', '#006622', '#00812B', '#27AE60', '#52BE80', '#82E0AA', '#ABEBC6'];
+    let allRows = [], charts = {};
+
+    /* ── UTILIDADES ── */
+    function destroyChart(id) { if (charts[id]) { charts[id].destroy(); delete charts[id]; } }
+    function pct(n, total) { return total > 0 ? Math.round(n / total * 100) : 0; }
+    function getCol(rows, idx) { return rows.map(r => (r[idx] || '').toString().trim()).filter(v => v !== ''); }
+
+    function countSingle(arr) {
+      const m = {};
+      arr.forEach(v => { if (v) m[v] = (m[v] || 0) + 1; });
+      return m;
+    }
+
+    function ageGroup(val) {
+      const n = parseInt(val);
+      if (isNaN(n)) return null;
+      if (n < 18) return null;
+      if (n <= 24) return '18-24';
+      if (n <= 34) return '25-34';
+      if (n <= 44) return '35-44';
+      if (n <= 54) return '45-54';
+      if (n <= 64) return '55-64';
+      return '65+';
+    }
+
+    function wrapLabel(label, maxLen = 22) {
+      if (typeof label !== 'string' || label.length <= maxLen) return label;
+      const words = label.split(' ');
+      const lines = [];
+      words.forEach(word => {
+        const last = lines[lines.length - 1];
+        if (!last) lines.push(word);
+        else if ((last + ' ' + word).length <= maxLen) lines[lines.length - 1] = last + ' ' + word;
+        else lines.push(word);
+      });
+      return lines;
+    }
+
+    /* ── CHARTS (Solo mostramos Porcentajes %) ── */
+    function makeBar(id, labels, data, colors, horizontal = false, showDL = false, hideXAxis = false, hideYAxis = false, yFontSize = 10) {
+      destroyChart(id);
+      const ctx = document.getElementById(id);
+      if (!ctx) return;
+      const cctx = ctx.getContext('2d');
+      const total = data.reduce((a, b) => a + b, 0);
+      const wrappedLabels = labels.map(l => wrapLabel(String(l), horizontal ? 28 : 12));
+
+      charts[id] = new Chart(cctx, {
+        type: 'bar',
+        data: { labels: wrappedLabels, datasets: [{ data, backgroundColor: colors, borderRadius: 4, borderSkipped: false }] },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          indexAxis: horizontal ? 'y' : 'x',
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: ctx => {
+                  const sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                  return sum > 0 ? ' ' + Math.round((ctx.raw) / sum * 100) + '%' : ' 0%';
+                }
+              }
+            },
+            datalabels: showDL ? {
+              anchor: horizontal ? 'end' : 'end', align: horizontal ? 'end' : 'top',
+              formatter: (v) => total > 0 ? Math.round(v / total * 100) + '%' : '',
+              font: { family: 'Poppins', weight: 700, size: 10 }, color: '#333',
+              clip: false
+            } : { display: false }
+          },
+          layout: {
+            padding: {
+              top: !horizontal ? 15 : 0,
+              right: horizontal ? 35 : 0
+            }
+          },
+          scales: {
+            x: {
+              display: !hideXAxis,
+              grid: { display: horizontal },
+              ticks: { display: !hideXAxis, font: { family: 'Poppins', size: 11 } },
+              grace: horizontal ? '15%' : 0
+            },
+            y: {
+              display: !hideYAxis,
+              grid: { color: '#f0f0f0', display: !horizontal },
+              ticks: { display: !hideYAxis, font: { family: 'Poppins', size: yFontSize } },
+              grace: !horizontal ? '15%' : 0
+            }
+          }
+        },
+        plugins: [ChartDataLabels]
+      });
+    }
+
+    function makeWaffle(id, labels, data, colors) {
+      const container = document.getElementById(id);
+      if (!container) return;
+      container.innerHTML = '';
+      const total = data.reduce((a, b) => a + b, 0);
+      if (total === 0) return;
+
+      const pcts = data.map(v => Math.round(v / total * 100));
+      // Ajustar para que sumen exactamente 100 debido al redondeo
+      let sum = pcts.reduce((a, b) => a + b, 0);
+      while (sum < 100) { pcts[0]++; sum++; }
+      while (sum > 100) { pcts[0]--; sum--; }
+
+      const flattened = [];
+      pcts.forEach((p, i) => {
+        for (let k = 0; k < p; k++) flattened.push(colors[i]);
+      });
+
+      flattened.forEach(color => {
+        const div = document.createElement('div');
+        div.className = 'waffle-item';
+        div.style.backgroundColor = color;
+        container.appendChild(div);
+      });
+    }
+
+    function makeRatingBar(id, dist, max, npsColors = false, hideYAxis = false, isNps = false) {
+      destroyChart(id);
+      const ctx = document.getElementById(id);
+      if (!ctx) return;
+      const cctx = ctx.getContext('2d');
+      const labels = Array.from({ length: max }, (_, i) => String(i + 1));
+      const dataVals = labels.map(l => dist[l] || 0);
+      const total = dataVals.reduce((a, b) => a + b, 0);
+      const colors = labels.map(l => {
+        const n = parseInt(l);
+        if (!npsColors) return RED_PAL[2];
+        if (isNps) {
+          if (n <= 6) return '#DD0025'; // Traditional NPS Detractors (0-6)
+          if (n <= 8) return '#9CCC65'; // Pasivos
+          return '#2E7D32'; // Promotores
+        } else {
+          if (n <= 4) return '#DD0025'; // Insatisfechos
+          if (n <= 6) return '#FFA726'; // Neutrales
+          if (n <= 8) return '#9CCC65'; // Satisfechos
+          return '#2E7D32'; // Muy Satisfechos
+        }
+      });
+      charts[id] = new Chart(cctx, {
+        type: 'bar',
+        data: { labels, datasets: [{ data: dataVals, backgroundColor: colors, borderRadius: 3 }] },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: ctx => {
+                  return total > 0 ? ' ' + Math.round((ctx.raw) / total * 100) + '%' : ' 0%';
+                }
+              }
+            },
+            datalabels: {
+              display: true,
+              anchor: 'end', align: 'top',
+              formatter: (v) => total > 0 && v > 0 ? Math.round(v / total * 100) + '%' : '',
+              font: { family: 'Poppins', weight: 700, size: 10 }, color: '#333',
+              clip: false
+            }
+          },
+          layout: {
+            padding: {
+              top: 15
+            }
+          },
+          scales: {
+            x: { grid: { display: false }, ticks: { font: { family: 'Poppins', size: 10 } } },
+            y: {
+              display: !hideYAxis,
+              grid: { color: '#f0f0f0' },
+              ticks: { display: !hideYAxis, font: { family: 'Poppins', size: 10 } },
+              grace: '15%'
+            }
+          }
+        },
+        plugins: [ChartDataLabels]
+      });
+    }
+
+    function makeNpsChart(id, labels, data, colors) {
+      destroyChart(id);
+      const ctx = document.getElementById(id).getContext('2d');
+      charts[id] = new Chart(ctx, {
+        type: 'doughnut',
+        data: { labels, datasets: [{ data, backgroundColor: colors, borderWidth: 0 }] },
+        options: {
+          responsive: true, maintainAspectRatio: false, cutout: '60%',
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: ctx => {
+                  const sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                  return sum > 0 ? ' ' + Math.round((ctx.raw) / sum * 100) + '%' : ' 0%';
+                }
+              }
+            },
+            datalabels: {
+              display: true,
+              formatter: (value, ctx2) => {
+                const total = ctx2.dataset.data.reduce((a, b) => a + b, 0);
+                if (!total || value === 0) return '';
+                return Math.round(value / total * 100) + '%';
+              },
+              font: { family: 'Poppins', weight: 700, size: 11 },
+              color: '#fff'
+            }
+          }
+        },
+        plugins: [ChartDataLabels]
+      });
+    }
+
+    /* ── RENDER ── */
+    function render(rows) {
+      const total = rows.length;
+      document.getElementById('kpiTotal').textContent = total.toLocaleString('es-ES');
+
+      /* GÉNERO — Waffle Chart */
+      const gMapRaw = countSingle(getCol(rows, CI.gender).map(g => g === 'F' ? 'Femenino' : g === 'M' ? 'Masculino' : 'Otro/NS'));
+      const gMap = {};
+      Object.entries(gMapRaw).forEach(([k, v]) => { if (k !== 'Otro/NS') gMap[k] = v; });
+      const gEntries = Object.entries(gMap);
+      const gTotal = gEntries.reduce((s, [, v]) => s + v, 0);
+
+      const gColors = ['#5DADE2', '#C0392B'];
+      makeWaffle('cGenero', gEntries.map(e => e[0]), gEntries.map(e => e[1]), gColors.slice(0, gEntries.length));
+
+      const legend = document.getElementById('genderLegend');
+      legend.innerHTML = gEntries.map((e, i) => `<div class="legend-item"><div class="legend-dot" style="background:${gColors[i]}"></div>${e[0]}: ${pct(e[1], gTotal)}%</div>`).join('');
+
+      /* EDAD — Ocultar Eje Y */
+      const ageArr = getCol(rows, CI.age);
+      const ageRanges = ['18-24', '25-34', '35-44', '45-54', '55-64', '65+'];
+      const ageDist = {};
+      ageArr.forEach(v => { const g = ageGroup(v); if (g) ageDist[g] = (ageDist[g] || 0) + 1; });
+      // hideXAxis = false, hideYAxis = true
+      makeBar('cEdad', ageRanges, ageRanges.map(r => ageDist[r] || 0), ageRanges.map((_, i) => RED_PAL[Math.min(i, RED_PAL.length - 1)]), false, true, false, true);
+
+      /* CONOCÍA — Ocultar Eje X */
+      const conociaArr = getCol(rows, CI.conocia);
+      const conociaMap = countSingle(conociaArr);
+      const conociaTotal = Object.values(conociaMap).reduce((a, b) => a + b, 0);
+      const noConocia = (conociaMap['No lo conocía'] || 0);
+      document.getElementById('kpiKnew').textContent = conociaTotal > 0 ? Math.round((conociaTotal - noConocia) / conociaTotal * 100) + '%' : '—';
+      const conociaEntries = Object.entries(conociaMap).sort((a, b) => b[1] - a[1]);
+      const conociaColors = ['#C0392B', '#E74C3C', '#EC7063', '#F1948A'];
+      // horizontal = true, showDL = true, hideXAxis = true, hideYAxis = false
+      makeBar('cConocia', conociaEntries.map(e => e[0]), conociaEntries.map(e => e[1]), conociaColors.slice(0, conociaEntries.length), true, true, true, false);
+
+      /* VALORACIÓN (score) — Ocultar Eje Y */
+      const scoreArr = getCol(rows, CI.score).map(v => parseFloat(v)).filter(n => !isNaN(n));
+      const scoreAvg = scoreArr.length > 0 ? scoreArr.reduce((a, b) => a + b, 0) / scoreArr.length : 0;
+      const scoreDist = {};
+      scoreArr.forEach(n => { const k = String(Math.round(n)); scoreDist[k] = (scoreDist[k] || 0) + 1; });
+      const scoreTotal = scoreArr.length;
+      const scoreMuySat = scoreArr.filter(n => n >= 9).length;
+      const scoreSat = scoreArr.filter(n => n >= 7).length;
+      const scoreNeu = scoreArr.filter(n => n >= 5 && n <= 6).length;
+      const scoreInsat = scoreArr.filter(n => n <= 4).length;
+
+      document.getElementById('kpiScore').textContent = scoreAvg > 0 ? scoreAvg.toFixed(1) : '—';
+      if (scoreAvg > 0) {
+        const pctDiff = ((scoreAvg - 8.0) / 8.0 * 100).toFixed(1);
+        const isPos = scoreAvg >= 8.0;
+        document.getElementById('kpiBenchmarkContainer').innerHTML = `
+          <div class="bench-box">
+            <div class="kpi-benchmark">Benchmark</div>
+            <div class="bench-text">
+              Soft drinks (8.0)<br>
+              <span class="bench-val" style="color:${isPos ? '#2E7D32' : '#C62828'}">${isPos ? '+' : ''}${pctDiff}%</span>
+            </div>
+          </div>`;
+      }
+      document.getElementById('mScoreMedia').textContent = scoreAvg > 0 ? scoreAvg.toFixed(1) : '—';
+      document.getElementById('mScoreMuySat').textContent = scoreTotal > 0 ? pct(scoreMuySat, scoreTotal) + '%' : '—';
+      document.getElementById('mScoreSat').textContent = scoreTotal > 0 ? pct(scoreSat, scoreTotal) + '%' : '—';
+      document.getElementById('mScoreNeu').textContent = scoreTotal > 0 ? pct(scoreNeu, scoreTotal) + '%' : '—';
+      document.getElementById('mScoreInsat').textContent = scoreTotal > 0 ? pct(scoreInsat, scoreTotal) + '%' : '—';
+      makeRatingBar('cScore', scoreDist, 10, true, true, false); // hideYAxis = true, isNps = false
+
+      /* INTENSIDAD — Vertical Bar Chart */
+      const intensidadMap = countSingle(getCol(rows, CI.intensidad));
+      const intensidadOrder = ['Muy débil', 'Suave', 'Equilibrado', 'Intenso', 'Muy fuerte'];
+      const intensidadColors = ['#F5B7B1', '#E74C3C', '#00812B', '#922B21', '#641E16'];
+      // horizontal = false, showDL = true, hideXAxis = false, hideYAxis = true
+      makeBar('cIntensidad', intensidadOrder, intensidadOrder.map(k => intensidadMap[k] || 0), intensidadColors, false, true, false, true);
+
+      /* DULZOR — Ocultar Eje X */
+      const dulzorMap = countSingle(getCol(rows, CI.dulzor));
+      const dulzorOrder = ['Le falta dulzor', 'Justo en su punto', 'Demasiado dulce'];
+      const dulzorColors = ['#F5B7B1', '#00812B', '#C0392B'];
+      const dulzorFiltered = dulzorOrder.filter(k => dulzorMap[k]);
+      makeBar('cDulzor', dulzorFiltered, dulzorFiltered.map(k => dulzorMap[k] || 0), dulzorColors.slice(0, dulzorFiltered.length), false, true, false, true);
+
+      /* INTENCIÓN DE COMPRA — Ocultar Eje X; KPI "Compradores Potenciales" */
+      const compraArr = getCol(rows, CI.compra);
+      const compraMap = countSingle(compraArr);
+      const compraTotal = Object.values(compraMap).reduce((a, b) => a + b, 0);
+      const siCompra = (compraMap['Compradores Potenciales'] || 0);
+      document.getElementById('kpiCompra').textContent = compraTotal > 0 ? Math.round(siCompra / compraTotal * 100) + '%' : '—';
+      const compraEntries = Object.entries(compraMap).sort((a, b) => b[1] - a[1]);
+      const compraColors = compraEntries.map(([label]) => {
+        const l = label.toLowerCase().trim();
+        if (l.includes('compradores potenciales')) return '#00812B';
+        if (l.includes('indecisos') || l.includes('no lo s') || l.includes('no lo se')) return '#9E9E9E';
+        if (l.includes('no compradores') || l === 'no') return '#DD0025';
+        return '#C0392B'; // Fallback
+      });
+      makeBar('cCompra', compraEntries.map(e => e[0]), compraEntries.map(e => e[1]), compraColors, true, true, true, false);
+
+      /* POR QUÉ NO COMPRARÍA — Ocultar Eje X */
+      const noCompraMap = countSingle(getCol(rows, CI.noCompra).filter(v => v && v.toLowerCase() !== ''));
+      const noCompraEntries = Object.entries(noCompraMap).sort((a, b) => b[1] - a[1]);
+      if (noCompraEntries.length) {
+        const noCompraColors = noCompraEntries.map((_, i) => `rgba(192,57,43,${Math.max(0.25, 1 - i * 0.12)})`);
+        makeBar('cNoCompra', noCompraEntries.map(e => e[0]), noCompraEntries.map(e => e[1]), noCompraColors, true, true, true, false);
+      }
+
+      /* FRECUENCIA */
+      const frecMap = countSingle(getCol(rows, CI.frecuencia));
+      const frecOrder = ['Todos o casi todos los días', '3-4 veces por semana', '1 vez a la semana', '2-3 veces al mes', '1 vez al mes', '1 vez cada dos o tres meses', 'Con menos frecuencia', 'No consumo este tipo de productos'];
+      const frecFiltered = frecOrder.filter(k => frecMap[k]);
+      makeBar('cFrecuencia', frecFiltered, frecFiltered.map(k => frecMap[k] || 0), frecFiltered.map((_, i) => RED_PAL[Math.min(i, RED_PAL.length - 1)]), true, true, true, false, 9);
+
+      /* MARCA HABITUAL (COMPETIDOR) Y MARCA CUSTOM */
+      function renderPlaceholder(id) {
+        if (!document.getElementById(id)) return;
+        destroyChart(id);
+        const ctx = document.getElementById(id).getContext('2d');
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        ctx.font = "12px 'Poppins', sans-serif";
+        ctx.fillStyle = '#aaa';
+        ctx.textAlign = 'center';
+        ctx.fillText('Datos en procesamiento', ctx.canvas.width / 2, ctx.canvas.height / 2);
+      }
+
+      const compMapBrand = countSingle(getCol(rows, CI.competidor).filter(v => v));
+      if (Object.keys(compMapBrand).length > 0) {
+        const compEntries = Object.entries(compMapBrand).sort((a, b) => b[1] - a[1]).slice(0, 10);
+        const compColors = compEntries.map(([label], i) => label.trim().toLowerCase() === 'otros' ? '#F2F2F2' : RED_PAL[Math.min(i, RED_PAL.length - 1)]);
+        makeBar('cCompetidor', compEntries.map(e => e[0]), compEntries.map(e => e[1]), compColors, true, true, true, false);
+      } else {
+        renderPlaceholder('cCompetidor');
+      }
+
+      const customMap = countSingle(getCol(rows, CI.marcaCustom).filter(v => v));
+      if (Object.keys(customMap).length > 0) {
+        const customEntries = Object.entries(customMap).sort((a, b) => b[1] - a[1]).slice(0, 10);
+        const customColors = customEntries.map(([label], i) => label.trim().toLowerCase() === 'otros' ? '#F2F2F2' : RED_PAL[Math.min(i, RED_PAL.length - 1)]);
+        makeBar('cMarcaCustom', customEntries.map(e => e[0]), customEntries.map(e => e[1]), customColors, true, true, true, false);
+      } else {
+        renderPlaceholder('cMarcaCustom');
+      }
+
+      /* MOMENTO — Ocultar Eje X */
+      const momentoMap = countSingle(getCol(rows, CI.momento));
+      const momentoEntries = Object.entries(momentoMap).sort((a, b) => b[1] - a[1]);
+      makeBar('cMomento', momentoEntries.map(e => e[0]), momentoEntries.map(e => e[1]), momentoEntries.map((_, i) => RED_PAL[Math.min(i, RED_PAL.length - 1)]), true, true, true, false);
+
+      /* LO QUE MÁS GUSTÓ — Ocultar Eje X */
+      const masGustoMap = countSingle(getCol(rows, CI.masGusto));
+      const masGustoEntries = Object.entries(masGustoMap).sort((a, b) => b[1] - a[1]).slice(0, 6);
+      const masGustoColors = masGustoEntries.map((_, i) => GREEN_PAL[Math.min(i, GREEN_PAL.length - 1)]);
+      makeBar('cMasGusta', masGustoEntries.map(e => e[0]), masGustoEntries.map(e => e[1]), masGustoColors, true, true, true, false);
+
+      /* COMPARACIÓN — Ocultar Eje X */
+      const compArr = getCol(rows, CI.comparacion);
+      const compMap = countSingle(compArr);
+      const compTotal = Object.values(compMap).reduce((a, b) => a + b, 0);
+      const top2Val = (compMap['Mucho mejor que los que he tomado'] || 0) + (compMap['Algo mejor que los que he tomado'] || 0);
+      document.getElementById('mTop2Comparacion').textContent = compTotal > 0 ? Math.round(top2Val / compTotal * 100) + '%' : '—';
+
+      const compOrder = ['Mucho mejor que los que he tomado', 'Algo mejor que los que he tomado', 'Igual / No noté diferencia', 'Peor que los que he tomado', 'Mucho peor que los que he tomado'];
+      const compColorsScale = ['#2E7D32', '#4CAF50', '#FBC02D', '#E53935', '#C62828'];
+      const compFiltered = compOrder.filter(k => compMap[k]);
+      const compBarColors = compFiltered.map(k => compColorsScale[compOrder.indexOf(k)]);
+
+      makeBar('cComparacion', compFiltered.map(k => {
+        const short = {
+          'Mucho mejor que los que he tomado': 'Mucho mejor',
+          'Algo mejor que los que he tomado': 'Algo mejor',
+          'Igual / No noté diferencia': 'Igual',
+          'Peor que los que he tomado': 'Peor',
+          'Mucho peor que los que he tomado': 'Mucho peor'
+        };
+        return short[k] || k;
+      }), compFiltered.map(k => compMap[k] || 0), compBarColors, true, true, true, false);
+
+      /* NPS — Ocultar Eje Y en distribución */
+      const npsArr = getCol(rows, CI.nps).map(v => parseFloat(v)).filter(n => !isNaN(n));
+      let detractores = 0, pasivos = 0, promotores = 0;
+      npsArr.forEach(n => {
+        if (n <= 6) detractores++;
+        else if (n <= 8) pasivos++;
+        else promotores++;
+      });
+      const npsTotal = detractores + pasivos + promotores;
+      const pPro = pct(promotores, npsTotal);
+      const pPas = pct(pasivos, npsTotal);
+      const pDet = npsTotal > 0 ? 100 - pPro - pPas : 0;
+      const nps = pPro - pDet;
+      const npsEl = document.getElementById('npsValue');
+      npsEl.textContent = (nps >= 0 ? '+' : '') + nps;
+      npsEl.style.color = nps >= 0 ? '#2E7D32' : '#DD0025';
+      document.getElementById('npsBarDet').style.width = pDet + '%';
+      document.getElementById('npsBarPas').style.width = pPas + '%';
+      document.getElementById('npsBarPro').style.width = pPro + '%';
+      document.getElementById('npsLegDet').textContent = `Detractores ${pDet}%`;
+      document.getElementById('npsLegPas').textContent = `Pasivos ${pPas}%`;
+      document.getElementById('npsLegPro').textContent = `Promotores ${pPro}%`;
+      // makeNpsChart('cNps', ...); // Eliminado donut tras integración
+      const npsDist = {};
+      npsArr.forEach(n => { const k = String(Math.round(n)); npsDist[k] = (npsDist[k] || 0) + 1; });
+      makeRatingBar('cNpsScale', npsDist, 10, true, true, true); // hideYAxis = true, isNps = true
+
+      /* INSIGHTS */
+      const pctCompra = compraTotal > 0 ? Math.round(siCompra / compraTotal * 100) : 0;
+      const pctMuySat = scoreTotal > 0 ? Math.round(scoreMuySat / scoreTotal * 100) : 0;
+      const pctNoConocia = conociaTotal > 0 ? Math.round(noConocia / conociaTotal * 100) : 0;
+
+      document.getElementById('insightCompra').innerHTML = compraTotal > 0
+        ? `Una sólida intención de compra del <strong>${pctCompra}%</strong> confirma el éxito del sabor, posicionándolo como una opción preferente en la categoría.`
+        : '—';
+
+      document.getElementById('insightScore').innerHTML = scoreTotal > 0
+        ? `Con una media de <strong>${scoreAvg.toFixed(1)}/10</strong>, el producto destaca por su calidad, logrando que un <strong>${pctMuySat}%</strong> lo califique como excelente (9-10).`
+        : '—';
+
+      document.getElementById('insightBrand').innerHTML = conociaTotal > 0
+        ? `Impacto publicitario: el <strong>${pctNoConocia}%</strong> de los usuarios descubrió Nestea Frutos Rojos gracias a esta campaña, logrando gran notoriedad.`
+        : '—';
+
+      document.getElementById('insightNps').innerHTML = npsTotal > 0
+        ? `Fidelidad destacada: el NPS de <strong>${(nps >= 0 ? '+' : '') + nps}</strong> indica una alta probabilidad de recomendación orgánica y gran aceptación del sabor.`
+        : '—';
+
+      /* TIMESTAMP */
+      const now = new Date();
+      document.getElementById('lastUpdate').textContent = `Actualizado: ${now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}`;
+      document.getElementById('footerInfo').textContent = `última actualización ${now.toLocaleTimeString('es-ES')} · se refresca cada 24 h`;
+    }
+
+    /* ── PARSEO GVIZ ── */
+    function parseGviz(raw) {
+      const json = JSON.parse(raw.replace(/^[^\{]+/, '').replace(/[^\}]+$/, ''));
+      return json.table.rows.map(r => r.c.map(c => c ? (c.v ?? c.f ?? '') : ''));
+    }
+
+    /* ── FILTRADO ── */
+    function getFiltered() {
+      const g = document.getElementById('fGender').value;
+      const a = document.getElementById('fAge').value;
+      return allRows.filter(r => {
+        if (g && (r[CI.gender] || '').trim() !== g) return false;
+        if (a) { const ag = ageGroup((r[CI.age] || '').toString()); if (!ag || ag !== a) return false; }
+        return true;
+      });
+    }
+
+    /* ── CARGA ── */
+    async function fetchData() {
+      try {
+        const res = await fetch(GSHEET_URL);
+        const raw = await res.text();
+        allRows = parseGviz(raw).slice(1);
+        render(getFiltered());
+      } catch (e) {
+        document.getElementById('lastUpdate').textContent = 'Error de conexión';
+        console.error('Error:', e);
+      }
+    }
+
+    document.getElementById('fGender').addEventListener('change', () => render(getFiltered()));
+    document.getElementById('fAge').addEventListener('change', () => render(getFiltered()));
+
+    fetchData();
+    setInterval(fetchData, 24 * 60 * 60 * 1000);
+
+    /* ── DESCARGA PDF ── */
+    document.getElementById('downloadPdfBtn').addEventListener('click', async function () {
+      const btn = this;
+      const origText = btn.innerHTML;
+      btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;animation:spin 1s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Generando…';
+      btn.disabled = true;
+      try {
+        const content = document.querySelector('.content');
+        const canvas = await html2canvas(content, { scale: 2, useCORS: true, allowTaint: true, backgroundColor: '#F5F5F5', scrollY: -window.scrollY, windowHeight: content.scrollHeight });
+        const imgData = canvas.toDataURL('image/png');
+        const { jsPDF } = window.jspdf;
+        const pdfW = 210, pdfH = 297, margin = 8, usableW = pdfW - margin * 2;
+        const imgW = canvas.width, imgH = canvas.height, ratio = usableW / imgW;
+        const scaledH = imgH * ratio, pageContentH = pdfH - margin * 2;
+        const totalPages = Math.ceil(scaledH / pageContentH);
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        for (let page = 0; page < totalPages; page++) {
+          if (page > 0) pdf.addPage();
+          const srcY = (page * pageContentH) / ratio;
+          const srcH = Math.min(pageContentH / ratio, imgH - srcY);
+          const destH = srcH * ratio;
+          const pageCanvas = document.createElement('canvas');
+          pageCanvas.width = imgW; pageCanvas.height = srcH;
+          pageCanvas.getContext('2d').drawImage(canvas, 0, srcY, imgW, srcH, 0, 0, imgW, srcH);
+          pdf.addImage(pageCanvas.toDataURL('image/png'), 'PNG', margin, margin, usableW, destH);
+        }
+        pdf.save('Nestea_FrutosRojos_Dashboard.pdf');
+      } catch (err) {
+        console.error('PDF error:', err);
+        alert('Error al generar el PDF. Inténtalo de nuevo.');
+      } finally {
+        btn.innerHTML = origText;
+        btn.disabled = false;
+      }
+    });
+  </script>
+  <style>
+    @keyframes spin {
+      from {
+        transform: rotate(0deg)
+      }
+
+      to {
+        transform: rotate(360deg)
+      }
+    }
+  </style>
+</body>
+
+</html>
