@@ -628,9 +628,9 @@
 
         .footer {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             font-size: 10px;
             color: var(--gray);
             margin-top: 1rem;
@@ -639,6 +639,19 @@
             border: 1px solid var(--border);
             border-radius: var(--radius);
             padding: 1rem;
+        }
+
+        .footer-left {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            flex-shrink: 0;
         }
 
         .footer .download-btn {
@@ -658,6 +671,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             flex-shrink: 0;
+            white-space: nowrap;
         }
 
         .footer .download-btn:hover {
@@ -686,6 +700,8 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             position: relative;
             overflow: hidden;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .eval-btn::after {
@@ -727,6 +743,10 @@
             .title-bar {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+
+            .footer-right {
+                gap: 8px;
             }
         }
 
@@ -850,12 +870,25 @@
 
             .footer {
                 flex-direction: column;
+                align-items: stretch;
                 text-align: center;
-                gap: 8px;
+                gap: 10px;
             }
 
-            .footer .download-btn {
+            .footer-left {
+                text-align: center;
+            }
+
+            .footer-right {
+                flex-direction: column;
+                align-items: stretch;
                 width: 100%;
+            }
+
+            .footer .download-btn,
+            .eval-btn {
+                width: 100%;
+                justify-content: center;
             }
         }
 
@@ -1172,9 +1205,47 @@
             </div>
         </div>
 
+        <!-- ── SECCIÓN VÍDEO ── -->
+        <div class="section-label">Vídeo de la campaña</div>
+        <div class="card" style="margin-bottom:12px;">
+            <div class="card-title">Nestea Frutos Rojos — Campaña Samplia</div>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:1rem;">
+                <a href="https://youtu.be/YbMEzGR2qDU?si=oznhaz_6da3tTa_I" target="_blank" rel="noopener noreferrer"
+                    style="display:block; position:relative; width:100%; max-width:640px; border-radius:10px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.15); cursor:pointer; text-decoration:none;"
+                    id="videoThumbLink">
+                    <img
+                        src="https://img.youtube.com/vi/YbMEzGR2qDU/maxresdefault.jpg"
+                        alt="Miniatura del vídeo Nestea Frutos Rojos"
+                        style="width:100%; display:block; aspect-ratio:16/9; object-fit:cover;"
+                        onerror="this.src='https://img.youtube.com/vi/YbMEzGR2qDU/hqdefault.jpg';"
+                    />
+                    <!-- Play button overlay -->
+                    <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.25); transition:background 0.3s;"
+                        onmouseover="this.style.background='rgba(0,0,0,0.4)'"
+                        onmouseout="this.style.background='rgba(0,0,0,0.25)'">
+                        <div style="width:68px; height:68px; background:var(--brand); border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 20px rgba(243,74,95,0.5); transition:transform 0.2s;"
+                            onmouseover="this.style.transform='scale(1.1)'"
+                            onmouseout="this.style.transform='scale(1)'">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="white" style="margin-left:3px;">
+                                <polygon points="5 3 19 12 5 21 5 3"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <!-- YouTube badge -->
+                    <div style="position:absolute; bottom:10px; right:10px; background:rgba(0,0,0,0.75); color:#fff; font-size:10px; font-weight:600; padding:3px 8px; border-radius:4px; display:flex; align-items:center; gap:5px; font-family:'Poppins',sans-serif;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        Ver en YouTube
+                    </div>
+                </a>
+                <p style="font-size:12px; color:var(--gray); text-align:center; max-width:500px; line-height:1.5; margin:0;">
+                    Haz clic para ver el vídeo completo de la campaña Nestea Frutos Rojos.
+                </p>
+            </div>
+        </div>
+
         <div class="footer">
             <div class="footer-left">
-                <span id="footerInfo">última actualización 21:18:13 · se refresca cada 24 h</span>
+                <span id="footerInfo">Última actualización 21:18:13 · se refresca cada 24 h</span>
             </div>
             <div class="footer-right">
                 <button class="download-btn" id="downloadPdfBtn">
