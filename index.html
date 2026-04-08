@@ -1010,7 +1010,19 @@
             </div>
             <div class="card">
                 <div class="card-title">Rango de edad</div>
-                <div class="chart-wrap h150"><canvas id="cEdad"></canvas></div>
+                <div style="display:flex; gap:12px; align-items:flex-start;">
+                    <div style="display:flex; flex-direction:column; gap:8px; flex-shrink:0; min-width:100px;">
+                        <div class="mini-stat">
+                            <div class="mini-stat-label">Edad media</div>
+                            <div class="mini-stat-value" id="ageAvgValue">—</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-stat-label">Moda de edad</div>
+                            <div class="mini-stat-value" id="ageModeValue">—</div>
+                        </div>
+                    </div>
+                    <div class="chart-wrap h150" style="flex:1; min-width:0;"><canvas id="cEdad"></canvas></div>
+                </div>
             </div>
         </div>
 
@@ -1103,7 +1115,22 @@
         <div class="grid-2">
             <div class="card">
                 <div class="card-title">Intención de compra</div>
-                <div class="chart-wrap h400"><canvas id="cCompra"></canvas></div>
+                <div style="position:relative;">
+                    <div class="chart-wrap h400"><canvas id="cCompra"></canvas></div>
+                    <div class="mini-stat" style="position:absolute; bottom:8px; right:8px; display:flex; flex-direction:column; gap:3px; padding:8px 10px; background:rgba(255,255,255,0.95); border:1px solid var(--border); border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.08); min-width:0; z-index:2;">
+                        <div class="mini-stat-label" style="font-size:8px; text-align:left; white-space:nowrap;">Compradores potenciales</div>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <div class="mini-stat-value green" id="cCompraValue" style="font-size:22px; line-height:1;">—</div>
+                            <div style="display:flex; flex-direction:column; gap:3px; align-items:flex-start;">
+                                <div style="display:flex; align-items:center; gap:4px;">
+                                    <span style="font-size:7px; font-weight:600; color:var(--gray); text-transform:uppercase; letter-spacing:0.3px; white-space:nowrap;">Benchmark</span>
+                                    <span id="cCompraBenchmarkValue" style="font-size:11px; font-weight:800; color:var(--black);">52%</span>
+                                </div>
+                                <div id="cCompraBenchmarkDiff" style="font-size:11px; font-weight:800; color:#DD0025; display:flex; align-items:center; gap:2px; padding:2px 6px; border-radius:20px; background:rgba(221,0,37,0.08); white-space:nowrap;">—</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="card">
                 <div class="card-title">Frenos de compra</div>
@@ -1295,6 +1322,7 @@
         const RED_PAL = ['#922B21', '#C0392B', '#E74C3C', '#EC7063', '#F1948A', '#F5B7B1', '#FADBD8'];
         const LIGHT_GRAY_PAL = ['#E0E0E0', '#D6D6D6', '#CCCCCC', '#C2C2C2', '#B8B8B8', '#ADADAD', '#A3A3A3', '#999999', '#8F8F8F', '#858585'];
         const GREEN_PAL = ['#004D1A', '#006622', '#00812B', '#27AE60', '#52BE80', '#82E0AA', '#ABEBC6'];
+        const SOFT_DRINKS_PURCHASE_BENCHMARK = 52; // Benchmark percentage for soft drinks purchase intention
         let allRows = [], charts = {};
 
         /* ── UTILIDADES ── */
@@ -1334,7 +1362,14 @@
         }
 
         /* ── CHARTS (Solo mostramos Porcentajes %) ── */
-        function makeBar(id, labels, data, colors, horizontal = false, showDL = false, hideXAxis = false, hideYAxis = false, yFontSize = 10) {
+        function createGradient(ctx, chartArea, colorStart, colorEnd) {
+            const gradient = ctx.createLinearGradient(chartArea.left, 0, chartArea.right, 0);
+            gradient.addColorStop(0, colorStart);
+            gradient.addColorStop(1, colorEnd);
+            return gradient;
+        }
+
+function makeBar(id, labels, data, colors, horizontal = false, showDL = false, hideXAxis = false, hideYAxis = false, yFontSize = 10) {
             destroyChart(id);
             const ctx = document.getElementById(id);
             if (!ctx) return;
@@ -1347,9 +1382,32 @@
             const fontSize = isMobile ? 9 : 10;
             const labelFontSize = isMobile ? 9 : 11;
 
+            const isGradient = id === 'cNoCompra';
+            
+            // CORRECCIÓN: Función dinámica para el color de fondo
+            const bgColor = isGradient ? function(context) {
+                const chartArea = context.chart.chartArea;
+                
+                // Validamos si chartArea existe antes de intentar usar sus propiedades.
+                // Si es undefined (en el primer renderizado), retornamos null y Chart.js lo reintentará.
+                if (!chartArea) {
+                    return null; 
+                }
+                
+                const gradient = cctx.createLinearGradient(
+                    horizontal ? chartArea.left : 0, 
+                    horizontal ? 0 : chartArea.bottom, 
+                    horizontal ? chartArea.right : 0, 
+                    horizontal ? 0 : chartArea.top
+                );
+                gradient.addColorStop(0, 'rgba(192,57,43,1)'); // red
+                gradient.addColorStop(1, 'rgba(128,128,128,1)'); // gray
+                return gradient;
+            } : colors;
+
             charts[id] = new Chart(cctx, {
                 type: 'bar',
-                data: { labels: wrappedLabels, datasets: [{ data, backgroundColor: colors, borderRadius: 4, borderSkipped: false }] },
+                data: { labels: wrappedLabels, datasets: [{ data, backgroundColor: bgColor, borderRadius: 4, borderSkipped: false }] },
                 options: {
                     responsive: true, maintainAspectRatio: false,
                     indexAxis: horizontal ? 'y' : 'x',
@@ -1534,8 +1592,9 @@
             const gEntries = Object.entries(gMap);
             const gTotal = gEntries.reduce((s, [, v]) => s + v, 0);
 
-            const gColors = ['#5DADE2', '#C0392B'];
-            makeWaffle('cGenero', gEntries.map(e => e[0]), gEntries.map(e => e[1]), gColors.slice(0, gEntries.length));
+            const genderColorMap = { 'Femenino': '#C0392B', 'Masculino': '#5DADE2' };
+            const gColors = gEntries.map(e => genderColorMap[e[0]] || '#E0E0E0');
+            makeWaffle('cGenero', gEntries.map(e => e[0]), gEntries.map(e => e[1]), gColors);
 
             const legend = document.getElementById('genderLegend');
             legend.innerHTML = gEntries.map((e, i) => `<div class="legend-item"><div class="legend-dot" style="background:${gColors[i]}"></div>${e[0]}: ${pct(e[1], gTotal)}%</div>`).join('');
@@ -1545,6 +1604,13 @@
             const ageRanges = ['18-24', '25-34', '35-44', '45-54', '55-64', '65+'];
             const ageDist = {};
             ageArr.forEach(v => { const g = ageGroup(v); if (g) ageDist[g] = (ageDist[g] || 0) + 1; });
+            const ageNumbers = ageArr.map(v => parseInt(v, 10)).filter(n => !isNaN(n));
+            const ageAvg = ageNumbers.length > 0 ? Math.round(ageNumbers.reduce((a, b) => a + b, 0) / ageNumbers.length) : null;
+            const ageMode = ageRanges.reduce((best, range) => {
+                return (ageDist[range] || 0) > (ageDist[best] || 0) ? range : best;
+            }, ageRanges[0]);
+            document.getElementById('ageAvgValue').textContent = ageAvg ? `${ageAvg}` : '—';
+            document.getElementById('ageModeValue').textContent = ageDist[ageMode] ? ageMode : '—';
             // hideXAxis = false, hideYAxis = true
             makeBar('cEdad', ageRanges, ageRanges.map(r => ageDist[r] || 0), ageRanges.map((_, i) => RED_PAL[Math.min(i, RED_PAL.length - 1)]), false, true, false, true);
 
@@ -1609,7 +1675,23 @@
             const compraMap = countSingle(compraArr);
             const compraTotal = Object.values(compraMap).reduce((a, b) => a + b, 0);
             const siCompra = (compraMap['Compradores Potenciales'] || 0);
-            document.getElementById('kpiCompra').textContent = compraTotal > 0 ? Math.round(siCompra / compraTotal * 100) + '%' : '—';
+            const siCompraPct = compraTotal > 0 ? Math.round(siCompra / compraTotal * 100) : null;
+            const benchmarkDiff = siCompraPct !== null ? siCompraPct - SOFT_DRINKS_PURCHASE_BENCHMARK : null;
+            document.getElementById('kpiCompra').textContent = siCompraPct !== null ? siCompraPct + '%' : '—';
+            document.getElementById('cCompraValue').textContent = siCompraPct !== null ? siCompraPct + '%' : '—';
+            document.getElementById('cCompraBenchmarkValue').textContent = SOFT_DRINKS_PURCHASE_BENCHMARK + '%';
+            const benchmarkDiffEl = document.getElementById('cCompraBenchmarkDiff');
+            if (benchmarkDiff !== null) {
+                const isPos = benchmarkDiff >= 0;
+                const arrow = isPos ? '▲' : '▼';
+                benchmarkDiffEl.innerHTML = `<span>${arrow}</span> ${benchmarkDiff > 0 ? '+' : ''}${benchmarkDiff}%`;
+                benchmarkDiffEl.style.color = isPos ? '#2E7D32' : '#DD0025';
+                benchmarkDiffEl.style.background = isPos ? 'rgba(46,125,50,0.10)' : 'rgba(221,0,37,0.08)';
+            } else {
+                benchmarkDiffEl.textContent = '—';
+                benchmarkDiffEl.style.color = '#888';
+                benchmarkDiffEl.style.background = 'rgba(0,0,0,0.05)';
+            }
             const compraEntries = Object.entries(compraMap).sort((a, b) => b[1] - a[1]);
             const compraColors = compraEntries.map(([label]) => {
                 const l = label.toLowerCase().trim();
@@ -1675,28 +1757,50 @@
             const masGustoColors = masGustoEntries.map((_, i) => GREEN_PAL[Math.min(i, GREEN_PAL.length - 1)]);
             makeBar('cMasGusta', masGustoEntries.map(e => e[0]), masGustoEntries.map(e => e[1]), masGustoColors, true, true, true, false);
 
-            /* COMPARACIÓN — Ocultar Eje X */
+            /* COMPARACIÓN — matching robusto por keywords */
             const compArr = getCol(rows, CI.comparacion);
             const compMap = countSingle(compArr);
-            const compTotal = Object.values(compMap).reduce((a, b) => a + b, 0);
-            const top2Val = (compMap['Mucho mejor que los que he tomado'] || 0) + (compMap['Algo mejor que los que he tomado'] || 0);
-            document.getElementById('mTop2Comparacion').textContent = compTotal > 0 ? Math.round(top2Val / compTotal * 100) + '%' : '—';
 
-            const compOrder = ['Mucho mejor que los que he tomado', 'Algo mejor que los que he tomado', 'Igual / No noté diferencia', 'Peor que los que he tomado', 'Mucho peor que los que he tomado'];
-            const compColorsScale = ['#2E7D32', '#4CAF50', '#FBC02D', '#E53935', '#C62828'];
-            const compFiltered = compOrder.filter(k => compMap[k]);
-            const compBarColors = compFiltered.map(k => compColorsScale[compOrder.indexOf(k)]);
+            // Clasificar cada respuesta real por keywords, sin depender del texto exacto
+            function classifyComp(raw) {
+                const s = raw.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                if (s.includes('mucho mejor'))  return 'mucho_mejor';
+                if (s.includes('algo mejor'))   return 'algo_mejor';
+                if (s.includes('igual') || s.includes('no note') || s.includes('no noté')) return 'igual';
+                if (s.includes('mucho peor'))   return 'mucho_peor';
+                if (s.includes('peor'))         return 'peor';
+                return 'otro';
+            }
 
-            makeBar('cComparacion', compFiltered.map(k => {
-                const short = {
-                    'Mucho mejor que los que he tomado': 'Mucho mejor',
-                    'Algo mejor que los que he tomado': 'Algo mejor',
-                    'Igual / No noté diferencia': 'Igual',
-                    'Peor que los que he tomado': 'Peor',
-                    'Mucho peor que los que he tomado': 'Mucho peor'
-                };
-                return short[k] || k;
-            }), compFiltered.map(k => compMap[k] || 0), compBarColors, true, true, true, false);
+            const compBuckets = { mucho_mejor: 0, algo_mejor: 0, igual: 0, peor: 0, mucho_peor: 0 };
+            Object.entries(compMap).forEach(([raw, count]) => {
+                const bucket = classifyComp(raw);
+                if (bucket in compBuckets) compBuckets[bucket] += count;
+            });
+
+            const compBucketTotal = Object.values(compBuckets).reduce((a, b) => a + b, 0);
+
+            // Top 2 Box = Mucho mejor + Algo mejor
+            const top2Val = compBuckets.mucho_mejor + compBuckets.algo_mejor;
+            document.getElementById('mTop2Comparacion').textContent =
+                compBucketTotal > 0 ? Math.round(top2Val / compBucketTotal * 100) + '%' : '—';
+
+            // Definir orden visual, etiquetas y colores
+            const compDisplayOrder = [
+                { key: 'mucho_mejor', label: 'Mucho mejor', color: '#2E7D32' },
+                { key: 'algo_mejor',  label: 'Algo mejor',  color: '#4CAF50' },
+                { key: 'igual',       label: 'Igual',       color: '#FBC02D' },
+                { key: 'peor',        label: 'Peor',        color: '#E53935' },
+                { key: 'mucho_peor',  label: 'Mucho peor',  color: '#C62828' },
+            ].filter(d => compBuckets[d.key] > 0);
+
+            makeBar(
+                'cComparacion',
+                compDisplayOrder.map(d => d.label),
+                compDisplayOrder.map(d => compBuckets[d.key]),
+                compDisplayOrder.map(d => d.color),
+                true, true, true, false
+            );
 
             /* NPS — Ocultar Eje Y en distribución */
             const npsArr = getCol(rows, CI.nps).map(v => parseFloat(v)).filter(n => !isNaN(n));
