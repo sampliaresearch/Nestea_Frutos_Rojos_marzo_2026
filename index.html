@@ -1892,42 +1892,94 @@ function makeBar(id, labels, data, colors, horizontal = false, showDL = false, h
         fetchData();
         setInterval(fetchData, 24 * 60 * 60 * 1000);
 
-        /* ── DESCARGA PDF ── */
-        document.getElementById('downloadPdfBtn').addEventListener('click', async function () {
-            const btn = this;
-            const origText = btn.innerHTML;
-            btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;animation:spin 1s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Generando…';
-            btn.disabled = true;
-            try {
-                const content = document.querySelector('.content');
-                const canvas = await html2canvas(content, { scale: 2, useCORS: true, allowTaint: true, backgroundColor: '#F5F5F5', scrollY: -window.scrollY, windowHeight: content.scrollHeight });
-                const imgData = canvas.toDataURL('image/png');
-                const { jsPDF } = window.jspdf;
-                const pdfW = 210, pdfH = 297, margin = 8, usableW = pdfW - margin * 2;
-                const imgW = canvas.width, imgH = canvas.height, ratio = usableW / imgW;
-                const scaledH = imgH * ratio, pageContentH = pdfH - margin * 2;
-                const totalPages = Math.ceil(scaledH / pageContentH);
-                const pdf = new jsPDF('p', 'mm', 'a4');
-                for (let page = 0; page < totalPages; page++) {
-                    if (page > 0) pdf.addPage();
-                    const srcY = (page * pageContentH) / ratio;
-                    const srcH = Math.min(pageContentH / ratio, imgH - srcY);
-                    const destH = srcH * ratio;
-                    const pageCanvas = document.createElement('canvas');
-                    pageCanvas.width = imgW; pageCanvas.height = srcH;
-                    pageCanvas.getContext('2d').drawImage(canvas, 0, srcY, imgW, srcH, 0, 0, imgW, srcH);
-                    pdf.addImage(pageCanvas.toDataURL('image/png'), 'PNG', margin, margin, usableW, destH);
-                }
-                pdf.save('Nestea_FrutosRojos_Dashboard.pdf');
-            } catch (err) {
-                console.error('PDF error:', err);
-                alert('Error al generar el PDF. Inténtalo de nuevo.');
-            } finally {
-                btn.innerHTML = origText;
-                btn.disabled = false;
+/* ── DESCARGA PDF MEJORADA ── */
+document.getElementById('downloadPdfBtn').addEventListener('click', async function () {
+    const btn = this;
+    const origText = btn.innerHTML;
+    
+    // Feedback visual de carga
+    btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;animation:spin 1s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Generando PDF...';
+    btn.disabled = true;
+
+    try {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfW = 210;
+        const pdfH = 297;
+        const margin = 12; // Margen general de la página en mm
+        const usableW = pdfW - margin * 2;
+
+        // 1. Extraer el logo rasterizado para usarlo en el PDF
+        let logoData = null;
+        let logoRatio = 1;
+        const logoEl = document.querySelector('.samplia-logo');
+        if (logoEl) {
+            // Capturamos el logo sin fondo para preservar la estética
+            const logoCanvas = await html2canvas(logoEl, { backgroundColor: null, scale: 2, useCORS: true });
+            logoData = logoCanvas.toDataURL('image/png'); // Aquí sí usamos PNG para mantener la transparencia
+            logoRatio = logoCanvas.height / logoCanvas.width;
+        }
+
+        // Función auxiliar para añadir el logo en cada página
+        const addPageHeader = () => {
+            if (logoData) {
+                const logoW = 25; // Ancho del logo en el PDF (mm)
+                const logoH = logoW * logoRatio;
+                // Posicionado a la IZQUIERDA: La posición X es igual al margen izquierdo
+                pdf.addImage(logoData, 'PNG', margin, margin, logoW, logoH);
             }
+        };
+
+        let currentY = margin + 12; // Empezamos a dibujar debajo del logo
+        addPageHeader();
+
+        // 2. Procesamiento de bloques individuales para evitar cortes
+        const contentDiv = document.querySelector('.content');
+        
+        // Seleccionamos los hijos de content, ignorando los filtros y el footer para el reporte
+        const blocks = Array.from(contentDiv.children).filter(el => {
+            return !el.classList.contains('filter-bar') && !el.classList.contains('footer') && el.tagName !== 'SCRIPT';
         });
 
+        for (const block of blocks) {
+            // Renderizamos cada bloque de forma independiente
+            const canvas = await html2canvas(block, {
+                scale: 1.5, // Reducir a 1.5 es el "sweet spot" entre peso y legibilidad
+                useCORS: true,
+                backgroundColor: '#ffffff' // Fondo blanco/transparente
+            });
+
+            // Formato JPEG al 80% de calidad para un archivo más ligero
+            const imgData = canvas.toDataURL('image/jpeg', 0.8);
+            const imgW = canvas.width;
+            const imgH = canvas.height;
+            const ratio = usableW / imgW;
+            const destH = imgH * ratio;
+
+            // Lógica de salto de página: si el bloque no cabe, creamos página nueva
+            if (currentY + destH > pdfH - margin) {
+                pdf.addPage();
+                addPageHeader();
+                currentY = margin + 12; // Reiniciamos altura Y
+            }
+
+            // Pintar el bloque capturado en el PDF
+            pdf.addImage(imgData, 'JPEG', margin, currentY, usableW, destH);
+            currentY += destH + 4; // 4mm de respiro entre bloques
+        }
+
+        // Nombrar y guardar el archivo
+        pdf.save('Resultados_Encuesta_Nestea.pdf');
+
+    } catch (err) {
+        console.error('PDF error:', err);
+        alert('Ocurrió un error al generar el PDF. Por favor, revisa la consola o inténtalo de nuevo.');
+    } finally {
+        // Restaurar estado del botón
+        btn.innerHTML = origText;
+        btn.disabled = false;
+    }
+});
         /* ── REDIMENSIONAMIENTO RESPONSIVE ── */
         let resizeTimer;
         window.addEventListener('resize', () => {
